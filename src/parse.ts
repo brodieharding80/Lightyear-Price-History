@@ -1,4 +1,5 @@
 import Papa from 'papaparse';
+import type { ParseError, ParseResult } from 'papaparse';
 import { parse, isValid, format } from 'date-fns';
 import { db, type Item, type PricePoint } from './db';
 
@@ -145,3 +146,4 @@ export async function importCsvText(
 
   return stats;
 }
+
