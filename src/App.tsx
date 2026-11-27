@@ -57,7 +57,7 @@ async function readClipboardText(): Promise<string> {
 
 export default function App() {
   const [status, setStatus] = useState<string>(
-    'Import your CSV to get started.'
+    'Lightyear > Archive & Reporting > Report Type = Line Item Level > Search > Export'
   );
   const [busy, setBusy] = useState(false);
 
@@ -234,7 +234,7 @@ export default function App() {
         <div>
           <div className="title">Price History</div>
           <div className="subtitle">
-            Import CSV → Search → See pricing trend
+            Import an exported CSV from Lightyear to view pricing history.
           </div>
         </div>
 
@@ -273,15 +273,6 @@ export default function App() {
             placeholder="Search by Prod Code or Description…"
             style={{ flex: 1 }}
           />
-          <button
-            className="btn ghost"
-            disabled={busy}
-            onClick={handlePasteAndSearch}
-            title="Paste from clipboard and search"
-            style={{ whiteSpace: 'nowrap' }}
-          >
-            Paste code
-          </button>
         </div>
 
         {results.length === 0 ? (
