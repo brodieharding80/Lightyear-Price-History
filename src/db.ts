@@ -30,6 +30,11 @@ class AppDB extends Dexie {
       items: 'prodCode, description, lastDate',
       points: '++id, prodCode, billDate',
     });
+    // v2: index supplierName so the Suppliers tab can list/filter quickly
+    this.version(2).stores({
+      items: 'prodCode, description, lastDate',
+      points: '++id, prodCode, billDate, supplierName',
+    });
   }
 }
 

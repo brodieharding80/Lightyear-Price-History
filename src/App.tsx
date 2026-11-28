@@ -3,6 +3,8 @@ import { db } from './db';
 import type { Item, PricePoint } from './db';
 import { clearDb } from './db';
 import { importCsvText } from './parse';
+import SupplierTab from './SupplierTab';
+import { currency } from './format';
 
 import {
   Chart as ChartJS,
@@ -23,11 +25,6 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-
-function currency(n?: number) {
-  if (n === undefined || n === null || Number.isNaN(n)) return '—';
-  return `$${n.toFixed(2)}`;
-}
 
 async function copyToClipboard(text: string) {
   // modern clipboard API
@@ -60,6 +57,9 @@ export default function App() {
     'Lightyear > Archive & Reporting > Report Type = Line Item Level > Search > Export'
   );
   const [busy, setBusy] = useState(false);
+  const [tab, setTab] = useState<'items' | 'suppliers'>('items');
+  // Bumped after import/clear so tabs reload their data
+  const [dataVersion, setDataVersion] = useState(0);
 
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<Item[]>([]);
@@ -98,7 +98,7 @@ export default function App() {
     return () => {
       cancelled = true;
     };
-  }, [query]);
+  }, [query, dataVersion]);
 
   // Load item points when selected
   useEffect(() => {
@@ -170,8 +170,8 @@ export default function App() {
               (res.errors.length ? ` (First error: ${res.errors[0]})` : '')
           );
 
-          // Refresh search results for current query
-          setQuery((q) => q);
+          // Refresh data in all tabs
+          setDataVersion((v) => v + 1);
         } catch (e: any) {
           setStatus(`Import failed: ${String(e?.message || e)}`);
         } finally {
@@ -194,6 +194,7 @@ export default function App() {
       setSelected(null);
       setResults([]);
       setQuery('');
+      setDataVersion((v) => v + 1);
       setStatus('Database cleared.');
     } finally {
       setBusy(false);
@@ -263,6 +264,29 @@ export default function App() {
         <div className="status">{status}</div>
       </div>
 
+      <div className="tabs" role="tablist">
+        <button
+          role="tab"
+          aria-selected={tab === 'items'}
+          className={'tab' + (tab === 'items' ? ' active' : '')}
+          onClick={() => setTab('items')}
+        >
+          Item search
+        </button>
+        <button
+          role="tab"
+          aria-selected={tab === 'suppliers'}
+          className={'tab' + (tab === 'suppliers' ? ' active' : '')}
+          onClick={() => setTab('suppliers')}
+        >
+          By supplier
+        </button>
+      </div>
+
+      {tab === 'suppliers' && <SupplierTab dataVersion={dataVersion} />}
+
+      {tab === 'items' && (
+      <>
       <div className="card">
         {/* Search row with Paste button */}
         <div className="row" style={{ alignItems: 'center' }}>
@@ -396,6 +420,8 @@ export default function App() {
           </div>
           <div className="footnote">Showing latest 50 rows for this item.</div>
         </div>
+      )}
+      </>
       )}
     </div>
   );
