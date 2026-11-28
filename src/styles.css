@@ -217,3 +217,148 @@ body {
   font-size: 11px;
   color: var(--muted);
 }
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 6px;
+  padding: 4px;
+  margin-bottom: 12px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.25);
+}
+.tab {
+  flex: 1;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.tab.active {
+  background: var(--btn);
+  color: white;
+}
+
+/* Supplier tab controls */
+.controls {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.field.grow {
+  flex: 1;
+  min-width: 200px;
+}
+.fieldLabel {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 600;
+}
+.input {
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.25);
+  color: var(--text);
+  font-size: 16px;
+}
+.input option {
+  background: var(--card);
+}
+.input.days {
+  width: 110px;
+}
+
+/* Supplier item table */
+.sTable {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.sHead,
+.sRow {
+  display: grid;
+  grid-template-columns: 1fr 80px 95px 70px;
+  gap: 8px;
+  align-items: center;
+}
+.sHead {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 700;
+  padding: 0 10px;
+}
+.sRow {
+  text-align: left;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  padding: 10px;
+  border-radius: 14px;
+  cursor: pointer;
+  font: inherit;
+}
+.sRow.active {
+  border-color: rgba(99, 102, 241, 0.7);
+  background: rgba(99, 102, 241, 0.12);
+}
+.sItem {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.num {
+  text-align: right;
+}
+.strong {
+  font-weight: 800;
+}
+.up {
+  color: #f87171;
+  font-weight: 700;
+}
+.down {
+  color: #4ade80;
+  font-weight: 700;
+}
+.sDetail {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 10px;
+  margin-bottom: 6px;
+  background: rgba(0, 0, 0, 0.2);
+}
+.statGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+.tRow.inRange {
+  border-color: rgba(99, 102, 241, 0.45);
+}
+
+@media (max-width: 560px) {
+  .sHead,
+  .sRow {
+    grid-template-columns: 1fr 70px 80px;
+  }
+  .sHead > :nth-child(4),
+  .sRow > :nth-child(4) {
+    display: none;
+  }
+  .statGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
